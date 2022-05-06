@@ -1,0 +1,10 @@
+
+.tam {
+	color: #ffffff; /* Color del texto */
+	border-radius: 30px; /* Borde del boton */
+	background-color: #ca2508; /* Color de fondo */
+	padding: 2px 6px; /* Relleno del boton */
+  position: absolute;
+  text-decoration: none;
+  transform: translateY(-4px);
+}

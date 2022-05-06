@@ -1,0 +1,11 @@
+.orden{
+  content: "heloo";
+  color: black;
+  cursor: pointer;
+}
+.orden:hover::before{
+  content: "Ordenar ";
+}
+.orden:hover{
+  background: grey;
+}

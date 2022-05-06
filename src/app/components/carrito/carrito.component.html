@@ -1,0 +1,118 @@
+<div *ngIf="reload()"></div>
+      <aside class="arriba col-md-32" *ngIf="total > 0 && mostrar" >
+        <form [formGroup]="migrupo1" style="background-color: cornsilk;">
+          <hr class="line">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="4" class="text-center">
+                  <h2 >Carrito</h2>
+                </th>
+              </tr>
+              <tr>
+                <th class="cortar">Nombre</th>
+                <th style="width: 20%; ">Precio</th>
+                <th style="width: 15%;">Subtotal</th>
+                <th style="width: 20%;"></th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let carro of carrito; let i=index">
+                <td class="cortar">{{carro.pro_nom}}</td>
+                <td>{{carro.ven_val}} x {{carro.ven_cant}} <br> {{carro.pro_valc/1000}}/{{carro.pro_gan/1000}}</td>
+                <td>{{carro.ven_tot}}</td>
+                <td>
+                  <div class="me">
+                    <button [disabled]="carro.pro_cant == 0" class="btn mebu btn-success btn-sm" (click)="aumentar(carro.ven_pro_id, carro.pro_valv, carro.pro_gan)">+</button>
+                    <button [disabled]="carro.ven_cant == 1" class="btn mebu btn-danger btn-sm" (click)="disminuir(carro.ven_pro_id, carro.pro_valv, carro.pro_gan)">-</button>
+                    <button (click)="deletecarrito(carro.ven_pro_id)" style="background: transparent; border: transparent;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: left;">
+                  <span>
+                    quien tiene el dinero
+                  </span>
+                </td>
+                <td colspan="2" style="text-align: right;">
+                  <span>
+                    <form [formGroup]="administradorFormulario">
+                      <select (ngModelChange)="a()" id="administrador" formControlName="administrador" style="margin: 2%; background: wheat; color: black;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" role="button" v-model="selected" aria-haspopup="true" aria-expanded="false">
+                          <option *ngFor="let administrador of administradores" [ngValue]="administrador.adm_id">{{ administrador.adm_nom }}</option>
+                          <hr/>
+                          <option [ngValue]=-1>Agregar</option>
+                      </select>
+                      <div *ngIf="administrador == -1" class="input-group mb-3">
+                        <div >
+                          <input type="text" formControlName="nuevo" class="form-control" placeholder="nuevo">
+                        </div>
+                        <div class="input-group-prepend">
+                          <button (click)="reset()" style="background: transparent; border: transparent;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                              <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="alert-danger" *ngIf="nuevo.invalid && (nuevo.dirty || nuevo.touched)">
+                          <div class="container-error-message" *ngIf="nuevo.errors.required">
+                            Nombre es requerido
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <div  class="input-group mb-3">
+                    <input type="number" formControlName="descuento" class="form-control" placeholder="Rebajas, domicilio, envio ... etc">
+                    <div class="input-group-prepend">
+                      <button (click)="onResetForm()" style="background: transparent; border: transparent;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" style="margin-top: 50%;" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                          <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="alert-danger" *ngIf="descuento.value > totalgan && (descuento.dirty || descuento.touched)">
+                    el descuento no pueda ser superior a la ganancia
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" >
+                  Costo: {{(total-totalgan)|currency:'COP ':'$ ':'.0-0'}}
+                </td>
+                <td colspan="2" style="text-align: left;">
+                  Ganancia: {{(totalgan-descuento.value)|currency:'COP ':'$ ':'.0-0'}}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1" style="text-align: left;">
+                  <button descuento.value = 0 (click)="vaciar()" class="vacia">vaciar</button>   
+                </td>
+                <td colspan="3" style="text-align: right;">
+                  <span class="co">
+                    Total: 
+                  </span> 
+                  <span style="font-size:25px;border:4px;">
+                    {{(total-descuento.value) |currency:'COP ':'$ ':'.0-0'}}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <button [disabled]="descuento.value > totalgan || administrador == 0 || (administradorFormulario.invalid && administrador == -1)" (click)="enviar()" class="btn btn-primary bon">Terminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </aside>
+

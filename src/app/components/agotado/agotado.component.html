@@ -1,0 +1,32 @@
+<div style="text-align: center;" *ngIf="tam < 1">
+  <h1>No tiene productos agotados</h1>
+</div>
+<div style="text-align: center;" *ngIf="tam >= 1">
+  <h1>Agotados</h1>
+</div>
+<div class="row">
+  <ng-container *ngFor="let product of products; let i = index">
+    <ng-container *ngFor="let fot of foto">
+      <div class="card p-10" style="width: 18rem;" *ngIf="aparte(fot.ima_pro_id , product.pro_id, i)">
+        <img [src]="'https://apicontabilidad.herokuapp.com/'+ fot.ima_path" height="220" class="card-img-top" >
+          <div class="card-body" >
+              <h5 class="card-title corta">{{product.pro_nom|uppercase}}</h5>
+              <p class="card-text">Precio: {{product.pro_valv|currency:'COP ':'$ ':'.0-0'}} <br>Disponibles: {{product.pro_cant}} </p>
+              <h5 class="card-title" style="color:#ff0000">Agotado</h5>
+              <button (click)="edit(product.pro_id)" class="btn-add">Agregar</button>
+          </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngFor="let product of products">
+      <div class="card p-10" style="width: 18rem;" *ngIf="noesta(product.pro_id)">
+        <img src="assets/img/nofoto.png" height="220" class="card-img-top" >
+          <div class="card-body" >
+              <h5 class="card-title corta">{{product.pro_nom|uppercase}}</h5>
+              <p class="card-text">Precio: {{product.pro_valv|currency:'COP ':'$ ':'.0-0'}} <br>Disponibles: {{product.pro_cant}} </p>
+              <h5 class="card-title" style="color:#ff0000">Agotado</h5>
+              <button (click)="edit(product.pro_id)" class="btn-add">Agregar</button>
+          </div>
+      </div>
+  </ng-container>
+</div>

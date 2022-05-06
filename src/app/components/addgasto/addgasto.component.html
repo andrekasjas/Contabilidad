@@ -1,0 +1,31 @@
+<div class="form-container">
+  <h1 *ngIf="termino==1">Nuevo gasto</h1>
+  <h1 *ngIf="termino==2">Nueva inversion</h1>
+  <form [formGroup]="migrupo1" >
+    <label *ngIf="termino==1">Nombre del gasto</label>
+    <label *ngIf="termino==2">Nombre de la inversion</label>
+    <input type="text" formControlName="nombre" placeholder="Nombre">
+    <div class="alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+      <div class="container-error-message" *ngIf="nombre.errors.required">
+        Nombre es requerido
+      </div>
+      <div class="container-error-message" *ngIf="nombre.errors.minlength">
+        Minimo 5 caracteres
+      </div>
+    </div>
+    <label *ngIf="termino==1">Valor del gasto</label>
+    <label *ngIf="termino==2">Valor de la inversion</label>
+    <input type="number" formControlName="costo" placeholder="Precio de costo">
+    <div class="alert-danger" *ngIf="costo.invalid && (costo.dirty || costo.touched)">
+      <div class="container-error-message" *ngIf="costo.errors.required">
+        Costo es requerido
+      </div>
+    </div>
+    <div class="alert-danger" *ngIf="costo.value < 1 && (costo.dirty || costo.touched)">
+      El costo no puede ser inferior a 1
+    </div>
+    <label>Descripcion</label>
+    <textarea class="form-control" formControlName="descripcion" placeholder="Descripcion" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <button [disabled]="migrupo1.invalid || costo.value < 1" (click)="crear(nombre, costo, descripcion)" class="btn btn-send" >Guardar</button>
+  </form>
+</div>

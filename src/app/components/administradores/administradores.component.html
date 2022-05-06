@@ -1,0 +1,20 @@
+<div style="text-align: center;">
+  <h1>Administradores de dinero</h1>
+</div>
+<table class="table table-striped" >
+  <thead class="thead-dark">
+    <tr>
+      <th>Nombre</th>
+      <th>Cantidad de dinero</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody >
+    <tr *ngFor="let administrador of administradores; let i = index">
+      <td>{{administrador.adm_nom | uppercase}}</td>
+      <td>{{administrador.adm_val | currency:'COP ':'$ ':'.0-0'}}</td>
+      <th style="background-color:#3cff00c2" *ngIf="i == 0">Total<br>{{total | currency:'COP ':'$ ':'.0-0'}}</th>
+    </tr>
+  </tbody>
+</table>
+

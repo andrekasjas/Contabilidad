@@ -1,0 +1,31 @@
+<div class="form-container" style="width: 15rem;" *ngFor="let product of products">
+  <form [formGroup]="migrupo1">
+    <h1>Venta</h1>
+      <div class="card-body" >
+          <h5 class="card-title centro tamt">{{product.pro_nom|uppercase}}</h5>
+          <p class="card-text">
+            Costo: {{product.pro_valc|currency:'COP ':'$ ':'.0-0'}}<br>
+            Precio: {{product.pro_valv|currency:'COP ':'$ ':'.0-0'}} <br>
+            Disponibles: {{product.pro_cant - cantidad}}
+          </p>
+          <div class="tam">
+            {{cantidad}}
+            <div class="me">
+            <button [disabled]="product.pro_cant == cantidad" class="btn mebu btn-outline-success btn-sm" (click)="aumentar(product.pro_cant)">+</button>
+            <button [disabled]="cantidad == 1" class="btn mebu btn-outline-danger btn-sm" (click)="disminuir()">-</button>
+          </div>
+          </div>
+          <label>Descuento</label>
+          <input type="number" formControlName="descuento" placeholder="Rebajas, domicilio, envio ... etc"><p>
+            <div class="alert-danger" *ngIf="descuento.value > (product.pro_gan*cantidad) && (descuento.dirty || descuento.touched)">
+              el descuento no pueda ser superior a la ganancia
+            </div>
+          <h6 class="centro tam">total: {{(product.pro_valv * cantidad)-descuento.value|currency:'COP ':'$ ':'.0-0'}}</h6>
+          <div class="d-grid gap-2">
+            <button [disabled]="descuento.value > (product.pro_gan*cantidad)" class="btn-send" (click)="agregarventa(product.pro_id, product.pro_nom, product.pro_valc, product.pro_valv, descuento.value, product.pro_gan, product.pro_cant)" type="button">Vendido</button>
+            <a routerLink="/products" class="btn btn-outline-primary">Regresar</a>
+          </div>
+      </div>
+  </form>
+</div>
+

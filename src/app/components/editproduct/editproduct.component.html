@@ -1,0 +1,54 @@
+<div class="form-container">
+
+  <form [formGroup]="migrupo1">
+    <h1>Editar producto</h1>
+    <div class="card-body">
+        <div class="form-group">
+          <input type="file" class="d-none" (change)="fotose($event)" #foto>
+          <img [src]="fotos" class="img-fluid" style="width: 630px;height: 500px; display:block; margin:auto;" (click)="foto.click()">
+        </div>
+    </div>
+    <label>Nombre del producto</label>
+    <input type="text" formControlName="nombre" placeholder="Nombre">
+    <div class="alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+      <div class="container-error-message" *ngIf="nombre.errors.required">
+        Nombre es requerido
+      </div>
+      <div class="container-error-message" *ngIf="nombre.errors.minlength">
+        Cantidad insuficiente
+      </div>
+    </div>
+    <label>Precio de costo del producto</label>
+    <input type="number" formControlName="costo" placeholder="Precio de costo">
+    <div class="alert-danger" *ngIf="costo.invalid && (costo.dirty || costo.touched)">
+      <div class="container-error-message" *ngIf="costo.errors.required">
+        Costo es requerido
+      </div>
+    </div>
+    <div class="alert-danger" *ngIf="costo.value < 1">
+      El costo no puede ser inferior a 1
+    </div>
+    <label>Precio de venta del producto</label>
+    <input type="number" formControlName="venta" placeholder="Precio de venta">
+    <div class="alert-danger" *ngIf="venta.invalid && (venta.dirty || venta.touched)">
+      <div class="container-error-message" *ngIf="venta.errors.required">
+        Venta es requerido
+      </div>
+    </div>
+    <div class="alert-danger" *ngIf="venta.value < costo.value">
+        Valor de venta tiene que ser superior a valor de costo
+    </div>
+    <label>Cantidad existente del producto</label>
+    <input type="number" formControlName="cantidad" placeholder="Cantidad">
+    <div class="alert-danger" *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
+      <div class="container-error-message" *ngIf="cantidad.errors.required">
+        Cantidad es requerido
+      </div>
+    </div>
+    <div class="alert-danger" *ngIf="cantidad.value < 1">
+      la cantidad no pueda ser inferior a 1
+    </div>
+    <button [disabled]="migrupo1.invalid || venta.value < costo.value || cantidad.value < 1 || costo.value < 1" (click)="edit(nombre, costo, venta, cantidad)" class="btn btn-send" >Guardar</button>
+  </form>
+</div>
+
