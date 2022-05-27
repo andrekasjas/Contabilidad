@@ -1,5 +1,7 @@
 # Proyecto Contabilidad de Negocio
 #### Aplicacion web para gestionar ventar y gastos de propietarios de un negocio, desarrollada con angular, consumiendo una apirest desarrollada con postgresql y nodejs 
+### Host
+-[View](https://contabilidadkasjas.000webhostapp.com/)
 ## Aplicacion
 #### listado de ventas realizadas con fecha y total de ganancias, descuentos, inversion y gastos
 ![ventas](https://user-images.githubusercontent.com/62920120/143487124-a105e0f8-76de-499a-8024-c1831e09c4a6.png)
